@@ -16,7 +16,6 @@ const {
     View,
     ImageBackground,
     ActivityIndicator,
-    NetInfo,
     Platform,
     StyleSheet,
 } = ReactNative;
@@ -79,21 +78,11 @@ class CachedImage extends React.Component {
 
     componentWillMount() {
         this._isMounted = true;
-        NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
-        // initial
-        NetInfo.isConnected.fetch()
-            .then(isConnected => {
-                this.safeSetState({
-                    networkAvailable: isConnected
-                });
-            });
-
         this.processSource(this.props.source);
     }
 
     componentWillUnmount() {
         this._isMounted = false;
-        NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectivityChange);
     }
 
     componentWillReceiveProps(nextProps) {
